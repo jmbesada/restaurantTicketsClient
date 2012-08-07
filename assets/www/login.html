@@ -1,29 +1,46 @@
 <div data-role="page">
-	<div data-role="header">
+	<div data-role="header" data-theme="a">
 		<h2>TICKETS RESTAURANT</h2>
+		<a href="#" data-icon="logo" data-iconpos="notext"></a>
 	</div>
 	<div data-role="content" style="">
-		<p class="ui-bar ui-bar-b" >Introduce tus credenciales</p>
-		<div data-role="fieldcontain">
-			<label for="username">Usuario:</label>
-			<input type="text" name="username" id="username" value="" data-theme="e"/>
-		</div>
-		<div data-role="fieldcontain">
-			<label for="password">Contraseña:</label>
-			<input type="text" name="password" id="password" value="" data-theme="e"/>
-		</div>
-		<div data-role="fieldcontain">
-			<input type="checkbox" name="saveCredentialsCh" id="saveCredentialsCh" value="yes" data-theme="c"/>
-			<label for="saveCredentialsCh" data-inline="true">Guardar Credenciales</label>
-		</div>
-		
-		<a href="#" data-role="button" data-inline="true" id="submitBtn" data-theme="b">Enviar datos</a>
+		<p class="ui-bar titular" >Introduce tus credenciales</p>
+		<form method="GET" action="#" id="loginForm">
+			<div data-role="fieldcontain">
+				<label for="username">Usuario:</label>
+				<input type="text" name="username" id="username" value="" data-theme="e"/>
+			</div>
+			<div data-role="fieldcontain">
+				<label for="password">Contraseña:</label>
+				<input type="text" name="password" id="password" value="" data-theme="e"/>
+			</div>
+		</form>
+		<a href="#" data-role="button" data-inline="true" id="submitBtn" data-theme="a">Enviar datos</a>
 	</div>
-	<div data-role="footer" data-position="fixed">
+	<div data-role="footer" data-position="fixed" data-theme="a">
+		<h2>Nuestros productos</h2>
 	</div>
 	<script>
+		var request={
+			username:$('username').val(),
+			password:$('password').val()
+		}
 		$('#submitBtn').click(function(){
-			
+			blockUI();
+			$.ajax({
+				url:systemParams.webServicesPath+"/getData",
+				data:$('#loginForm').serialize(),
+				success:function(resp){
+					console.log(JSON.stringify(resp,null,5));
+				},
+				error:function(jqxhr,status,errorMsg){
+					console.log("Error al intentar logarse:"+errorMsg);
+					alert(errorMsg);
+				},
+				complete:function(){
+					unblockUI();
+				}
+			})
 		});
 	</script>
 </div>

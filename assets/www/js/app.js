@@ -42,3 +42,26 @@ document.addEventListener('deviceready',function(){
 		$.mobile.changePage('login.html');
 	}
 });
+
+
+function blockUI(){
+	$.blockUI({
+		message:'<img src="./images/ajax-loader.gif" />',
+		css:{
+			border:'0px solid black',
+			width:'0px',
+			height:'0px',
+			left:'45%',
+			opacity:1
+		}
+	})
+	
+}
+
+function unblockUI(){
+	$.unblockUI();
+}
+
+function alert(message){
+	navigator.notification.alert(message,function(){},'MENSAJE DEL SISTEMA','ACEPTAR');
+}
