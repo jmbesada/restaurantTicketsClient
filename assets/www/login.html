@@ -5,16 +5,15 @@
 	</div>
 	<div data-role="content" style="">
 		<p class="ui-bar titular" >Introduce tus credenciales</p>
-		<form method="GET" action="#" id="loginForm">
-			<div data-role="fieldcontain">
-				<label for="username">Usuario:</label>
-				<input type="text" name="username" id="username" value="" data-theme="e"/>
-			</div>
-			<div data-role="fieldcontain">
-				<label for="password">Contraseña:</label>
-				<input type="text" name="password" id="password" value="" data-theme="e"/>
-			</div>
-		</form>
+		
+		<div data-role="fieldcontain">
+			<label for="username">Usuario:</label>
+			<input type="text" name="username" id="username" value="" data-theme="e"/>
+		</div>
+		<div data-role="fieldcontain">
+			<label for="password">Contraseña:</label>
+			<input type="text" name="password" id="password" value="" data-theme="e"/>
+		</div>
 		<a href="#" data-role="button" data-inline="true" id="submitBtn" data-theme="a">Enviar datos</a>
 	</div>
 	<div data-role="footer" data-position="fixed" data-theme="a">
@@ -23,18 +22,24 @@
 	<script>
 		$('#submitBtn').click(function(){
 			blockUI();
+			var request={
+				username:$('#username').val(),
+				password:$('#password').val()
+			}
 			$.ajax({
-				url:systemParams.webServicesPath+"/getData",
-				data:$('#loginForm').serialize(),
+				url:systemParams.webServicesPath+"/launchExecution",
+				data:request,
+				type:'get',
+				cache:false,
 				success:function(resp){
 					console.log(JSON.stringify(resp,null,5));
 				},
 				error:function(jqxhr,status,errorMsg){
-					console.log("Error al intentar logarse:"+errorMsg);
+					console.log(status+":"+errorMsg);
 					alert(errorMsg);
 				},
 				complete:function(){
-					unblockUI();
+					unblockUI(); 
 				}
 			})
 		});
