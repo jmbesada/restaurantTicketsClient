@@ -1,6 +1,5 @@
 //Ajax global configuration
 $.ajaxSetup({
-	contentType:'application/json',
 	timeout:28000
 }) 
 

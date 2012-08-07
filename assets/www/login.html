@@ -29,7 +29,7 @@
 			$.ajax({
 				url:systemParams.webServicesPath+"/launchExecution",
 				data:request,
-				type:'get',
+				type:'POST',
 				cache:false,
 				success:function(resp){
 					console.log(JSON.stringify(resp,null,5));
