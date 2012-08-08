@@ -26,41 +26,9 @@
 				username:$('#username').val(),
 				password:$('#password').val()
 			}
-			$.ajax({
-				url:systemParams.webServicesPath+"/launchExecution",
-				data:request,
-				type:'POST',
-				cache:false,
-				success:function(data){
-					console.log("launchExecution:"+JSON.stringify(data,null,5));
-					executionId=data.executionId;
-					setTimeout(checkFinishedExecution,1000);
-					
-				},
-				error:function(jqxhr,status,errorMsg){
-					console.log(status+":"+errorMsg);
-					alert(errorMsg);
-					unblockUI(); 
-				},
-				complete:function(){
-					
-				}
-			})
+			launchExecution(request,true);
 		});
 		
-		function checkFinishedExecution(){
-			$.ajax({
-				url:systemParams.webServicesPath+"/getData",
-				data:"executionId="+executionId,
-				type:'POST',
-				cache:false,
-				success:function(data){
-					unblockUI(); 
-					console.log(data['status_code']);
-					console.log("getData:"+JSON.stringify(data,null,5));
-					
-				}
-			})
-		}
+		
 	</script>
 </div>

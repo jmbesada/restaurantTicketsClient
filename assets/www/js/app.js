@@ -17,6 +17,7 @@ function getModel(){
 	if (data != null){
 		model=JSON.parse(data);
 	}
+	console.log('getModel:'+JSON.stringify(model));
 }
 
 function saveModel(){
@@ -32,6 +33,7 @@ document.addEventListener('deviceready',function(){
 	document.addEventListener('backbutton',function(){
 		console.log("Saving the model");
 		saveModel();
+		navigator.app.exitApp();
 	});
 	getModel();
 	//alert(model.username);
@@ -64,4 +66,48 @@ function unblockUI(){
 
 function alert(message){
 	navigator.notification.alert(message,function(){},'MENSAJE DEL SISTEMA','ACEPTAR');
+}
+
+function launchExecution(params,saveCredentials){
+	$.ajax({
+		url:systemParams.webServicesPath+"/launchExecution",
+		data:params,
+		type:'POST',
+		cache:false,
+		success:function(data){
+			console.log("launchExecution:"+JSON.stringify(data,null,5));
+			executionId=data.executionId;
+			setTimeout(function(){
+				checkFinishedExecution(data.executionId,saveCredentials, params);
+			},1000);
+			
+		},
+		error:function(jqxhr,status,errorMsg){
+			console.log(status+":"+errorMsg);
+			alert(errorMsg);
+			unblockUI(); 
+		},
+		complete:function(){
+			
+		}
+	})
+}
+
+function checkFinishedExecution(executionId,saveCredentials, params){
+	$.ajax({
+		url:systemParams.webServicesPath+"/getData",
+		data:"executionId="+executionId,
+		type:'POST',
+		cache:false,
+		success:function(data){
+			unblockUI(); 
+			if (saveCredentials) {
+				model.username=params['username'];
+				model.password=params['password'];
+			}
+			console.log(data['status_code']);
+			console.log("getData:"+JSON.stringify(data,null,5));
+			
+		}
+	})
 }
