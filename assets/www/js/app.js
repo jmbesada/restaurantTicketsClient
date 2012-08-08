@@ -4,8 +4,8 @@ $.ajaxSetup({
 }) 
 
 var systemParams={
-	webServicesPath:'http://restauranttickets.cloudfoundry.com/service'
-	//webServicesPath:'http://192.168.0.192:8080/restaurantTickets/service'
+	//webServicesPath:'http://restauranttickets.cloudfoundry.com/service'
+	webServicesPath:'http://192.168.0.192:8080/restaurantTickets/service'
 }
 
 var model={
@@ -33,6 +33,7 @@ document.addEventListener('deviceready',function(){
 	document.addEventListener('backbutton',function(){
 		console.log("Saving the model");
 		saveModel();
+		localStorage.clear();
 		navigator.app.exitApp();
 	});
 	getModel();
@@ -76,9 +77,8 @@ function launchExecution(params,saveCredentials){
 		cache:false,
 		success:function(data){
 			console.log("launchExecution:"+JSON.stringify(data,null,5));
-			executionId=data.executionId;
 			setTimeout(function(){
-				checkFinishedExecution(data.executionId,saveCredentials, params);
+				checkFinishedExecution(data['execution_id'],saveCredentials, params);
 			},1000);
 			
 		},
@@ -98,15 +98,28 @@ function checkFinishedExecution(executionId,saveCredentials, params){
 		url:systemParams.webServicesPath+"/getData",
 		data:"executionId="+executionId,
 		type:'POST',
+		dataType:'json',
 		cache:false,
 		success:function(data){
-			unblockUI(); 
-			if (saveCredentials) {
-				model.username=params['username'];
-				model.password=params['password'];
-			}
-			console.log(data['status_code']);
 			console.log("getData:"+JSON.stringify(data,null,5));
+			if (data['status_code'] == 200){
+				if (saveCredentials) {
+					model.username=params['username'];
+					model.password=params['password'];
+					$.mobile.changePage('home.html');
+				}
+				unblockUI(); 
+			}
+			else if (data['status_code'] == 201){
+				alert('Los credenciales no son válidos');
+				unblockUI(); 
+			}
+			
+			else if (data['status_code'] == 202){
+				setTimeout(function(){
+					checkFinishedExecution(executionId, saveCredentials, params)
+				},5000);
+			}
 			
 		}
 	})
