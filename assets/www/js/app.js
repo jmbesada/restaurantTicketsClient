@@ -4,8 +4,8 @@ $.ajaxSetup({
 }) 
 
 var systemParams={
-	//webServicesPath:'http://restauranttickets.cloudfoundry.com/service'
-	webServicesPath:'http://192.168.0.192:8080/restaurantTickets/service'
+	webServicesPath:'http://restauranttickets.cloudfoundry.com/service'
+	//webServicesPath:'http://192.168.0.192:8080/restaurantTickets/service'
 }
 
 var model={

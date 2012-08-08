@@ -31,17 +31,36 @@
 				data:request,
 				type:'POST',
 				cache:false,
-				success:function(resp){
-					console.log(JSON.stringify(resp,null,5));
+				success:function(data){
+					console.log("launchExecution:"+JSON.stringify(data,null,5));
+					executionId=data.executionId;
+					setTimeout(checkFinishedExecution,1000);
+					
 				},
 				error:function(jqxhr,status,errorMsg){
 					console.log(status+":"+errorMsg);
 					alert(errorMsg);
+					unblockUI(); 
 				},
 				complete:function(){
-					unblockUI(); 
+					
 				}
 			})
 		});
+		
+		function checkFinishedExecution(){
+			$.ajax({
+				url:systemParams.webServicesPath+"/getData",
+				data:"executionId="+executionId,
+				type:'POST',
+				cache:false,
+				success:function(data){
+					unblockUI(); 
+					console.log(data['status_code']);
+					console.log("getData:"+JSON.stringify(data,null,5));
+					
+				}
+			})
+		}
 	</script>
 </div>
