@@ -28,13 +28,21 @@ document.addEventListener('deviceready',function(){
 	console.log('!!!!!!!!!!!!!!!!!Phonegap framework initialized.........');
 	//localStorage.clear();
 	document.addEventListener('pause',function(){
-		console.log("Saving the model");
 		saveModel();
+		console.log("Saved the model on the pause");
 	});
 	document.addEventListener('backbutton',function(){
-		console.log("Saving the model");
-		saveModel();
-		navigator.app.exitApp();
+		var pageId=$.mobile.activePage.attr('id');
+		if (pageId == 'conf') $.mobile.changePage('home.html',{
+			transition:'none'
+		});
+		else{
+			saveModel();
+			console.log("Saved the model after clicking in the back button");
+			navigator.app.exitApp();
+		}
+		
+		//navigator.app.exitApp();
 	});
 	getModel();
 	//alert(model.username);
