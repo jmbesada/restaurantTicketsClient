@@ -7,3 +7,16 @@
     font-size: 1.3em;
   	font-weight:bold
 }
+
+.panel{
+	width:80%;
+	margin:auto;
+	height:25%;
+	font-size:2em;
+	background: none repeat scroll 0 0 #E7EBF1;
+    border-radius: 5px 5px 5px 5px;
+    margin-bottom: 10px;
+    padding: 5px 5px;
+    text-align: center;
+    color:#D80B00;
+}

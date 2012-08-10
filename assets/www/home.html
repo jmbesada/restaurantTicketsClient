@@ -1,10 +1,21 @@
 <div data-role="page">
 	<div data-role="header" data-theme="a">
+		<a href="#" id="refreshBtn" data-icon="refresh" data-iconpos="notext"></a>
 		<h2>TICKETS RESTAURANT</h2>
 		<a href="#" data-role="none" class="ui-btn-right"><img src="./images/ticket-restaurant.png"></a>
 	</div>
 	<div data-role="content">
-
+		Hola <span data-bind="text:username" style="color:#333333;font-size:1.1em;font-weight:bold"></span>, 
+		<br/>
+		<br/>
+		<div class="panel">
+			<p style="font-size:0.75em;font-weight:bold;color:#333333;margin:5px">Saldo de la tarjeta:</p>
+			<span data-bind="text:dataUser.balance"></span> €
+		</div>
+		<p style="font-weight:bold;color:#333333">Tus movimientos:</p>
+		<ul data-role="listview" data-bind="template:{name:'movementTemplate', foreach:dataUser.movements}">
+			
+		</ul>
 	</div>
 	<div data-role="footer" data-position="fixed" data-theme="a">
 		<div data-role="navbar">
@@ -15,5 +26,29 @@
 		</div>
 		
 	</div>
-	<script></script>
+	
+	<script id="movementTemplate" type="text/html">
+		<li>
+			<table style="width:100%">
+			<tr>
+				<td data-bind="text:date"></td>
+				<td align="right" data-bind="text:type"></td>
+			</tr>
+			<tr>
+				<td data-bind="text:business"></td>
+				<td align="right" data-bind="text:amount" style="color:#D80B00"></td>
+			</tr>
+			</table>		
+	</script>
+	<script>
+		ko.applyBindings(model);
+		$('#refreshBtn').click(function(){
+			blockUI();
+			var request={
+				username:model['username'],
+				password:model['password']
+			}
+			launchExecution(request, false);
+		})
+	</script>
 </div>

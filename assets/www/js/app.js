@@ -106,9 +106,13 @@ function checkFinishedExecution(executionId,saveCredentials, params){
 				if (saveCredentials) {
 					model.username=params['username'];
 					model.password=params['password'];
-					model.dataUser=data;
 					$.mobile.changePage('home.html');
 				}
+				else{
+					ko.applyBindings(model);
+				}
+				model.dataUser=data;
+				
 				unblockUI(); 
 			}
 			else if (data['status_code'] == 201){
@@ -124,6 +128,7 @@ function checkFinishedExecution(executionId,saveCredentials, params){
 			
 		},
 		error:function(jqxhr, status, errorMsg){
+			unblockUI();
 			alert('Se ha producido un error en la recuperación de los datos.')
 		}
 	})
