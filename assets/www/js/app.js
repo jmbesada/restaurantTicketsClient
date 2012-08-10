@@ -17,7 +17,7 @@ function getModel(){
 	if (data != null){
 		model=JSON.parse(data);
 	}
-	console.log('getModel:'+JSON.stringify(model));
+	console.log('getModel:'+JSON.stringify(model,null,5));
 }
 
 function saveModel(){
@@ -26,6 +26,7 @@ function saveModel(){
 
 document.addEventListener('deviceready',function(){
 	console.log('!!!!!!!!!!!!!!!!!Phonegap framework initialized.........');
+	//localStorage.clear();
 	document.addEventListener('pause',function(){
 		console.log("Saving the model");
 		saveModel();
@@ -33,7 +34,6 @@ document.addEventListener('deviceready',function(){
 	document.addEventListener('backbutton',function(){
 		console.log("Saving the model");
 		saveModel();
-		localStorage.clear();
 		navigator.app.exitApp();
 	});
 	getModel();
@@ -106,6 +106,7 @@ function checkFinishedExecution(executionId,saveCredentials, params){
 				if (saveCredentials) {
 					model.username=params['username'];
 					model.password=params['password'];
+					model.dataUser=data;
 					$.mobile.changePage('home.html');
 				}
 				unblockUI(); 
@@ -121,6 +122,9 @@ function checkFinishedExecution(executionId,saveCredentials, params){
 				},5000);
 			}
 			
+		},
+		error:function(jqxhr, status, errorMsg){
+			alert('Se ha producido un error en la recuperación de los datos.')
 		}
 	})
 }
