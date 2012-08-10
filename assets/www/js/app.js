@@ -111,6 +111,7 @@ function checkFinishedExecution(executionId,saveCredentials, params){
 		success:function(data){
 			console.log("getData:"+JSON.stringify(data,null,5));
 			if (data['status_code'] == 200){
+				model.dataUser=data;
 				if (saveCredentials) {
 					model.username=params['username'];
 					model.password=params['password'];
@@ -118,9 +119,8 @@ function checkFinishedExecution(executionId,saveCredentials, params){
 				}
 				else{
 					ko.applyBindings(model);
+					$('#movements').listview('refresh');
 				}
-				model.dataUser=data;
-				
 				unblockUI(); 
 			}
 			else if (data['status_code'] == 201){

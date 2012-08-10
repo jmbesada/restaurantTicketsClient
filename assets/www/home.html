@@ -1,4 +1,4 @@
-<div data-role="page">
+<div data-role="page" id="home">
 	<div data-role="header" data-theme="a">
 		<a href="#" id="refreshBtn" data-icon="refresh" data-iconpos="notext"></a>
 		<h2>TICKETS RESTAURANT</h2>
@@ -13,7 +13,7 @@
 			<span data-bind="text:dataUser.balance"></span> €
 		</div>
 		<p style="font-weight:bold;color:#333333">Tus movimientos:</p>
-		<ul data-role="listview" data-bind="template:{name:'movementTemplate', foreach:dataUser.movements}">
+		<ul id="movements" data-role="listview" data-bind="template:{name:'movementTemplate', foreach:dataUser.movements}">
 			
 		</ul>
 	</div>
@@ -41,14 +41,17 @@
 			</table>		
 	</script>
 	<script>
-		ko.applyBindings(model);
-		$('#refreshBtn').click(function(){
-			blockUI();
-			var request={
-				username:model['username'],
-				password:model['password']
-			}
-			launchExecution(request, false);
-		})
+		$('div#home').bind('pagecreate',function(){
+			$('#refreshBtn').click(function(){
+				blockUI();
+				var request={
+					username:model['username'],
+					password:model['password']
+				} 
+				launchExecution(request, false);
+			})
+			ko.applyBindings(model);
+		});
+		
 	</script>
 </div>
