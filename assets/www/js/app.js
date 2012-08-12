@@ -122,6 +122,7 @@ function checkFinishedExecution(executionId,saveCredentials, params){
 					$('#movements').listview('refresh');
 				}
 				unblockUI(); 
+				navigator.notification.beep(2);
 			}
 			else if (data['status_code'] == 201){
 				alert('Los credenciales no son válidos');
