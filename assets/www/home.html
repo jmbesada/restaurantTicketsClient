@@ -16,6 +16,9 @@
 		<ul id="movements" data-role="listview" data-bind="template:{name:'movementTemplate', foreach:dataUser.movements}">
 			
 		</ul>
+		<p data-bind="visible:dataUser.movements.length == 0" style="color:#D80B00">
+			En estos momentos no es posible recuperar tu actividad.
+		</p>
 	</div>
 	<div data-role="footer" data-position="fixed" data-theme="a">
 		<div data-role="navbar">
@@ -41,15 +44,18 @@
 			</table>		
 	</script>
 	<script>	
-	$('div#home').bind('pagecreate',function(){
-			$('#refreshBtn').click(function(){
+		$('div#home').bind('pagecreate',function(){
+			$('#refreshBtn').tap(function(event){
 				blockUI();
 				var request={
 					username:model['username'],
 					password:model['password']
 				} 
 				launchExecution(request, false);
-			})
+			});
+			$(document).bind('taphold',function(){
+				$.mobile.changePage('conf.html');
+			});
 			ko.applyBindings(model);
 		});
 		
